@@ -8,7 +8,6 @@
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="5.0.1" />
     <PackageReference Include="Tesseract" Version="4.1.1" />
-    <PackageReference Include="Tesseract.Drawing" Version="4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +16,12 @@
 
   <ItemGroup>
     <None Update="Images\Sudoku1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\Sudoku2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\Test1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="tessdata\eng.traineddata">

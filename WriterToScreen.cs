@@ -6,7 +6,7 @@ namespace SudokuSolver
 {
     class WriterToScreen
     {
-        public WriterToScreen(sudokuVariables gameboard)
+        public WriterToScreen(sudokuVars gameboard)
         {
 
         }

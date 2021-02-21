@@ -6,9 +6,9 @@ namespace SudokuSolver
 {
     class SudokuSolver
     {
-        private sudokuVariables gameboard;
+        private sudokuVars gameboard;
 
-        public SudokuSolver(sudokuVariables gameboard)
+        public SudokuSolver(sudokuVars gameboard)
         {
             this.gameboard = gameboard;
         }

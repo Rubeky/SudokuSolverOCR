@@ -1,6 +1,6 @@
 ﻿using System;
 
-struct sudokuVariables
+struct sudokuVars
 {
     public int[,] sudokuBoard;
     public bool[,,] sudokuGuesses;
@@ -12,7 +12,7 @@ namespace SudokuSolver
     {
         static void Main(string[] args)
         {
-            var gameBoard = new sudokuVariables();
+            var gameBoard = new sudokuVars();
 
             // Not complete
             var startup = new Initialiser(gameBoard);
