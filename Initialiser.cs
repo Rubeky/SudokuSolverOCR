@@ -1,8 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Windows;
+﻿using System.Drawing;
+using System;
 
 
 namespace SudokuSolver
@@ -35,33 +32,32 @@ namespace SudokuSolver
             }
 
             var image = ImageRetrieval();
-            var visPros = new VisualProcessing(image);
-            gameboard = visPros.getArray();
-
+            var visPros = new VisualProcessing(image, gameboard);
         }
 
-        private int[,,] ImageRetrieval()
+        private Color[,] ImageRetrieval()
         {
+
             //Future usage, taking screenshot and finding sudoku board
             // find out how to get screen dimensions
             int screenWidth = 1920;
             int screenHeight = 1080;
             Bitmap bmpScreenShot = new Bitmap(screenWidth, screenHeight);
+            //Bitmap bmpScreenShot = new Bitmap("Images/EdgePiece.png");      //Testing purposes
+
             Graphics gfx = Graphics.FromImage(bmpScreenShot);
             gfx.CopyFromScreen(0, 0, 0, 0, new Size(screenWidth, screenHeight));
             
-            // No need to worry about alpha because screenshots don't utilise this
-            int[,,] image = new int[screenWidth,screenHeight,3];
+            // Saving the screenshot as a single pixel array
+            Color[,] image = new Color[screenWidth,screenHeight];
             var colour = new Color();
 
-            for(int i = 1; i < screenWidth; i++)
+            for (int i = 0; i < screenWidth; i++)
             {
-                for (int j = 1; j < screenHeight; j++)
+                for (int j = 0; j < screenHeight; j++)
                 {
                     colour = bmpScreenShot.GetPixel(i, j);
-                    image[i, j, 0] = colour.R;
-                    image[i, j, 1] = colour.G;
-                    image[i, j, 2] = colour.B;
+                    image[i, j] = colour;
                 }
             }
             return image;
