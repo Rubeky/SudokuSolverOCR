@@ -25,7 +25,7 @@ namespace SudokuSolver
                 {
                     for (uint k = 0; k < 9; k++)
                     {
-                        gameboard.sudokuGuesses[i, j, k] = true;
+                        gameboard.sudokuGuesses[i, j, k] = false;
                     }
                     gameboard.sudokuBoard[i, j] = 0;
                 }
