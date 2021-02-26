@@ -4,21 +4,90 @@ using System.Drawing;
 namespace SudokuSolver
 {
     class VisualProcessing
+        //This class houses the logic needed to convert the image of the board into the sudokuVars object.
     {
         private sudokuVars gameboard;
-        public VisualProcessing(Color[,] image, sudokuVars gameboard)
+        private Color[,] image;
+        public VisualProcessing(sudokuVars gameboard)
         {
+            gameboard.sudokuBoard = new int[9, 9];
+            gameboard.sudokuGuesses = new bool[9, 9, 9];
+            gameboard.sudokuFirstBoxLocation = new int[2];
             this.gameboard = gameboard;
-            image = cropImage(image);
+
+
+            // Initialising sudokuGuesses with all values
+            for (uint i = 0; i < 9; i++)
+            {
+                for (uint j = 0; j < 9; j++)
+                {
+                    for (uint k = 0; k < 9; k++)
+                    {
+                        gameboard.sudokuGuesses[i, j, k] = false;
+                    }
+                    gameboard.sudokuBoard[i, j] = 0;
+                }
+            }
+
+            var image = ImageRetrieval();
+            this.image = cropImage(image);
+
+            //Checking that image is actually correct size
             if(image.GetLength(0) > 100 && image.GetLength(1) > 100)
             {
-                imageSplit(image, gameboard);
+                var blockImages = imageSplit(image, gameboard);
+
+                bool[,] singleImage = new bool[blockImages.GetLength(3), blockImages.GetLength(4)];
+
+                //Goes through block of images and gets all "images" turned into the corresponding number value
+                for (int i = 0; i < 9; i++)
+                {
+                    for (int j = 0; j < 9; j++)
+                    {
+                        for (int x = 0; x < blockImages.GetLength(3); x++)
+                        {
+                            for (int y = 0; y < blockImages.GetLength(4); y++)
+                            {
+                                singleImage[x, y] = blockImages[i, j, x, y];
+                            }
+                        }
+                        gameboard.sudokuBoard[i, j] = imageToNumbers(singleImage);
+                    }
+                }
             }
             else
             {
                 Console.WriteLine("Error: The sudoku board cannot be found.");
             }
             
+        }
+
+        private Color[,] ImageRetrieval()
+        {
+
+            //Future usage, taking screenshot and finding sudoku board
+            // find out how to get screen dimensions
+            int screenWidth = 1920;
+            int screenHeight = 1080;
+            Bitmap bmpScreenShot = new Bitmap(screenWidth, screenHeight);
+            //Bitmap bmpScreenShot = new Bitmap("Images/EdgePiece.png");      //Testing purposes
+
+            Graphics gfx = Graphics.FromImage(bmpScreenShot);
+            gfx.CopyFromScreen(0, 0, 0, 0, new Size(screenWidth, screenHeight));
+
+            // Saving the screenshot as a single pixel array
+            Color[,] image = new Color[screenWidth, screenHeight];
+            var colour = new Color();
+
+            for (int i = 0; i < screenWidth; i++)
+            {
+                for (int j = 0; j < screenHeight; j++)
+                {
+                    colour = bmpScreenShot.GetPixel(i, j);
+                    image[i, j] = colour;
+                }
+            }
+            return image;
         }
 
         private Color[,] cropImage(Color[,] image)
@@ -77,6 +146,11 @@ namespace SudokuSolver
                 Console.WriteLine("Error: The sudoku box does not seem to be square, is this right?");
             }
 
+            //Setting location of first box so that we can click it later
+            this.gameboard.sudokuFirstBoxLocation[0] = topLeft.X;
+            this.gameboard.sudokuFirstBoxLocation[1] = topLeft.Y;
+
+
             return output;
         }
 
@@ -119,6 +193,11 @@ namespace SudokuSolver
             }
 
             return output;
+        }
+
+        private int imageToNumbers(bool[,] images)
+        {
+            return -1;
         }
 
         public sudokuVars getArray()

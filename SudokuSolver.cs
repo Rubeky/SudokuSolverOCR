@@ -4,13 +4,15 @@ using System.Text;
 
 namespace SudokuSolver
 {
-    class SudokuSolver
+    class SudokuSolverLogic
+        //This class is meant to house all the checking logic for
+        // solving the game.
     {
-        private sudokuVars gameboard;
+        private object board;
 
-        public SudokuSolver(sudokuVars gameboard)
+        public SudokuSolverLogic(sudokuVars gameboard)
         {
-            this.gameboard = gameboard;
+            this.board = new SudokuInteraction(gameboard);
         }
         public bool isComplete()
         {

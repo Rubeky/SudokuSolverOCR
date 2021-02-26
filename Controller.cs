@@ -4,25 +4,27 @@ struct sudokuVars
 {
     public int[,] sudokuBoard;
     public bool[,,] sudokuGuesses;
+    public int[] sudokuFirstBoxLocation;
 }
 
 namespace SudokuSolver
 {
     class Controller
+        //This class orchestrates all other classes.
     {
         static void Main(string[] args)
         {
             var gameBoard = new sudokuVars();
 
             // Not complete
-            var startup = new Initialiser(gameBoard);
+            var startup = new VisualProcessing(gameBoard);
 
             // Not complete
-            var solver = new SudokuSolver(gameBoard);
+            var solver = new SudokuSolverLogic(gameBoard);
             if (solver.isComplete())
             {
                 // Not complete, needs to interact with mouse and keyboard
-                var actioner = new WriterToScreen(gameBoard);
+                new WriterToScreen(gameBoard);
             }
         }
     }
