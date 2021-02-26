@@ -11,19 +11,19 @@ namespace SudokuSolver
         public VisualProcessing(sudokuVars gameboard)
         {
             gameboard.sudokuBoard = new int[9, 9];
-            gameboard.sudokuGuesses = new bool[9, 9, 9];
+            gameboard.viableNumbers = new bool[9, 9, 9];
             gameboard.sudokuFirstBoxLocation = new int[2];
             this.gameboard = gameboard;
 
 
-            // Initialising sudokuGuesses with all values
+            // Initialising viableNumbers with all values
             for (uint i = 0; i < 9; i++)
             {
                 for (uint j = 0; j < 9; j++)
                 {
                     for (uint k = 0; k < 9; k++)
                     {
-                        gameboard.sudokuGuesses[i, j, k] = false;
+                        gameboard.viableNumbers[i, j, k] = false;
                     }
                     gameboard.sudokuBoard[i, j] = 0;
                 }

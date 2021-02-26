@@ -3,7 +3,7 @@
 struct sudokuVars
 {
     public int[,] sudokuBoard;
-    public bool[,,] sudokuGuesses;
+    public bool[,,] viableNumbers;
     public int[] sudokuFirstBoxLocation;
 }
 
