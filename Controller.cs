@@ -21,6 +21,7 @@ namespace SudokuSolver
 
             // Not complete
             var solver = new SudokuSolverLogic(gameBoard);
+            solver.solve();
             if (solver.isComplete())
             {
                 // Not complete, needs to interact with mouse and keyboard

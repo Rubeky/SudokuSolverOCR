@@ -20,9 +20,6 @@ namespace SudokuSolver
         {
             //Filling value
             gameboard.sudokuBoard[x,y] = num;
-
-            //Clearing guesses
-            gameboard.viableNumbers[x, y, num] = false;
         }
 
         private bool[] sameBox(int x, int y)
@@ -57,7 +54,81 @@ namespace SudokuSolver
             return output;
         }
 
-        private bool autofill(int x, int y)
+        private bool[] linesFromBoxX(int y)
+            //Returns list of numbers that aren't ruled out by possible values in adjacent boxes
+        {
+            bool[] output = new bool[9];
+            bool numberInLine;
+            int boxY = y / 3;
+
+            for(int number = 0; number < 9; number++)
+            {
+                numberInLine = true;
+
+                //All x indices
+                for (int x = 0; x < 9; x++)
+                {
+                    //All lines that aren't the selected one
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (i + boxY * 3 != y)
+                        {
+                            //If the number is found, it cannot only be in line
+                            if(gameboard.viableNumbers[x, i + boxY * 3, number])
+                            {
+                                numberInLine = false;
+                            }
+                        }
+                    }
+                }
+
+                if (numberInLine)
+                {
+                    output[number] = true;
+                }
+            }
+
+            return output;
+        }
+
+        private bool[] linesFromBoxY(int x)
+        {
+            bool[] output = new bool[9];
+            bool numberInLine;
+            int boxX = x / 3;
+
+            for (int number = 0; number < 9; number++)
+            {
+                numberInLine = true;
+
+                //All y indices
+                for (int y = 0; y < 9; y++)
+                {
+                    //All lines that aren't the selected one
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (i + boxX * 3 != x)
+                        {
+                            //If the number is found, it cannot only be in line
+                            if (gameboard.viableNumbers[i + boxX * 3, y, number])
+                            {
+                                numberInLine = false;
+                            }
+                        }
+                    }
+                }
+
+                if (numberInLine)
+                {
+                    output[number] = true;
+                }
+            }
+
+            return output;
+        }
+
+
+        public bool autofill(int x, int y)
             //Returns true if number has been filled
         {
             //If location is outside of board
@@ -78,7 +149,7 @@ namespace SudokuSolver
             var line = sameLine(x, y);
             var boxes = sameBox(x / 3, y / 3);
 
-            //Combining the 3 vars above
+            //Combining the 2 vars above
             for(int i = 0; i < 9; i++)
             {
                 if (line[i] || boxes[i])
@@ -89,8 +160,23 @@ namespace SudokuSolver
                 }
             }
 
-            //If only 1 number is actually able to be filled
-            if(numAvailable == 1)
+            //Checks what numbers aren't possible based on pencilmarks
+            var linesX = linesFromBoxX(y);
+            var linesY = linesFromBoxY(x);
+
+            //Combining the 2 vars above
+            for (int i = 0; i < 9; i++)
+            {
+                if (linesX[i] || linesY[i])
+                {
+                    //Sets to false, used numbers are not viable numbers
+                    gameboard.viableNumbers[x, y, i] = false;
+                    numAvailable--;
+                }
+            }
+
+            //If only 1 number is actually able to be filled, and number isn't already filled
+            if (numAvailable == 1 && gameboard.sudokuBoard[x,y] != 0)
             {
                 for(int i = 0; i < 9; i++)
                 {
