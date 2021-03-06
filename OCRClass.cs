@@ -12,7 +12,7 @@ namespace SudokuSolver
             //Left, Right, Top, Bottom
             double[] percentSides = getSidePercentages(image, edges);
 
-            //Right, Top
+            //Left, top
             double[] skewedness = getSkewedness(image, edges);
             
 
@@ -138,10 +138,42 @@ namespace SudokuSolver
         }
 
         public static double[] getSkewedness(bool[,] image, Point[] edges)
-            //double[0] = right
-            //double[1] = top
+            //double[0] = left skewedness
+            //double[1] = top skewedness
         {
             double[] output = new double[2];
+
+            //Counting pixels
+            int numPixelsLeft = 0;
+            int numPixelsRight = 0;
+            int numPixelsTop = 0;
+            int numPixelsBottom = 0;
+
+            //For iterating through correct indices
+            int lengthX = edges[1].X - edges[0].X;
+            int lengthY = edges[1].Y - edges[0].Y;
+
+            //Getting left and right side weightings
+            for(int x = 0; x < lengthX/2; x++)
+            {
+                for(int y = 0; y < lengthY; y++)
+                {
+                    numPixelsLeft += image[edges[0].X + x, edges[0].Y + y] ? 1 : 0;
+                    numPixelsRight += image[edges[1].X - x, edges[0].Y + y] ? 1 : 0;
+                }
+            }
+
+            for (int y = 0; y < lengthY / 2; y++)
+            {
+                for (int x = 0; x < lengthX; x++)
+                {
+                    numPixelsTop += image[edges[0].X + x, edges[0].Y + y] ? 1 : 0;
+                    numPixelsBottom += image[edges[0].X + x, edges[1].Y - y] ? 1 : 0;
+                }
+            }
+            output[0] = Convert.ToDouble(numPixelsLeft) / (numPixelsRight + numPixelsLeft);
+            output[1] = Convert.ToDouble(numPixelsTop) / (numPixelsTop + numPixelsBottom);
+
             return output;
         }
     }
