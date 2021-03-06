@@ -10,9 +10,6 @@ namespace SudokuSolver
 
         public VisualProcessing(sudokuVars gameboard)
         {
-            gameboard.sudokuBoard = new int[9, 9];
-            gameboard.viableNumbers = new bool[9, 9, 9];
-            gameboard.sudokuFirstBoxLocation = new int[2];
             this.gameboard = gameboard;
 
 

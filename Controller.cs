@@ -11,6 +11,23 @@ struct sudokuVars
         sudokuBoard = new int[9,9];
         viableNumbers = new bool[9, 9, 9];
         sudokuFirstBoxLocation = new int[2];
+
+        sudokuFirstBoxLocation[0] = 0;
+        sudokuFirstBoxLocation[1] = 0;
+
+
+        for(int i = 0; i < 9; i++)
+        {
+            for(int j = 0; j < 9; j++)
+            {
+                sudokuBoard[i, j] = 0;
+
+                for(int k = 0; k < 9; k++)
+                {
+                    viableNumbers[i, j, k] = true;
+                }
+            }
+        }
     }
 }
 
@@ -50,7 +67,7 @@ namespace SudokuSolver
                     Console.Write(gameboard.sudokuBoard[x, y].ToString() + "|");
                 }
                 Console.WriteLine();
-                Console.WriteLine("-----------------");
+                //Console.WriteLine("-----------------");
             }
         }
     }

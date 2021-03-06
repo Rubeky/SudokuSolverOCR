@@ -135,6 +135,7 @@ namespace SudokuSolver
         public bool autofill(int x, int y)
             //Returns true if number has been filled
         {
+
             //If location is outside of board
             if(x > 8 || y > 8)
             {
@@ -152,11 +153,15 @@ namespace SudokuSolver
             //Checking what numbers cannot be used, true = used
             var line = sameLine(x, y);
             var boxes = sameBox(x / 3, y / 3);
+            //Checks what numbers aren't possible based on pencilmarks
+            var linesX = linesFromBoxX(y);
+            var linesY = linesFromBoxY(x);
+
 
             //Combining the 2 vars above
-            for(int i = 0; i < 9; i++)
+            for (int i = 0; i < 9; i++)
             {
-                if (line[i] || boxes[i])
+                if (line[i] || boxes[i] || linesX[i] || linesY[i])
                 {
                     //Sets to false, used numbers are not viable numbers
                     gameboard.viableNumbers[x ,y ,i] = false;
@@ -164,29 +169,14 @@ namespace SudokuSolver
                 }
             }
 
-            /*//Checks what numbers aren't possible based on pencilmarks
-            var linesX = linesFromBoxX(y);
-            var linesY = linesFromBoxY(x);
-
-            //Combining the 2 vars above
-            for (int i = 0; i < 9; i++)
-            {
-                if (linesX[i] || linesY[i])
-                {
-                    //Sets to false, used numbers are not viable numbers
-                    gameboard.viableNumbers[x, y, i] = false;
-                    numAvailable--;
-                }
-            }*/
-
             //If only 1 number is actually able to be filled, and number isn't already filled
-            if (numAvailable == 1 && gameboard.sudokuBoard[x,y] != 0)
+            if (numAvailable == 1 && gameboard.sudokuBoard[x,y] == 0)
             {
                 for(int i = 0; i < 9; i++)
                 {
-                    if (!gameboard.viableNumbers[x ,y ,i])
+                    if (gameboard.viableNumbers[x ,y ,i])
                     {
-                        fillNumber(x, y, i);
+                        fillNumber(x, y, i + 1);
                     }
                 }
                 return true;
