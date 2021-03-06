@@ -32,7 +32,8 @@ namespace SudokuSolver
             {
                 for(int j = 0; j < 3; j++)
                 {
-                    output[gameboard.sudokuBoard[i + 3*x,j + 3*y]] = true;
+                    if(gameboard.sudokuBoard[i + 3 * x, j + 3 * y] != 0)
+                        output[gameboard.sudokuBoard[i + 3*x,j + 3*y] - 1] = true;
                 }
             }
 
@@ -47,8 +48,11 @@ namespace SudokuSolver
             //Checking values in same vertical or horizontal box
             for(int i = 0; i < 9; i++)
             {
-                output[gameboard.sudokuBoard[i, y]] = true;
-                output[gameboard.sudokuBoard[x, i]] = true;
+                if(gameboard.sudokuBoard[i, y] != 0)
+                    output[gameboard.sudokuBoard[i, y] - 1] = true;
+
+                if (gameboard.sudokuBoard[x, i] != 0)
+                        output[gameboard.sudokuBoard[x, i] - 1] = true;
             }
 
             return output;
@@ -138,7 +142,7 @@ namespace SudokuSolver
             }
 
             //If board is already filled at location
-            if(gameboard.sudokuBoard[x,y] != 0)
+            if(this.gameboard.sudokuBoard[x,y] != 0)
             {
                 return false;
             }
@@ -160,7 +164,7 @@ namespace SudokuSolver
                 }
             }
 
-            //Checks what numbers aren't possible based on pencilmarks
+            /*//Checks what numbers aren't possible based on pencilmarks
             var linesX = linesFromBoxX(y);
             var linesY = linesFromBoxY(x);
 
@@ -173,7 +177,7 @@ namespace SudokuSolver
                     gameboard.viableNumbers[x, y, i] = false;
                     numAvailable--;
                 }
-            }
+            }*/
 
             //If only 1 number is actually able to be filled, and number isn't already filled
             if (numAvailable == 1 && gameboard.sudokuBoard[x,y] != 0)

@@ -7,7 +7,7 @@ namespace SudokuSolver
         //This class houses the logic needed to convert the image of the board into the sudokuVars object.
     {
         private sudokuVars gameboard;
-        private Color[,] image;
+
         public VisualProcessing(sudokuVars gameboard)
         {
             gameboard.sudokuBoard = new int[9, 9];
@@ -16,18 +16,7 @@ namespace SudokuSolver
             this.gameboard = gameboard;
 
 
-            // Initialising viableNumbers with all values
-            for (uint i = 0; i < 9; i++)
-            {
-                for (uint j = 0; j < 9; j++)
-                {
-                    for (uint k = 0; k < 9; k++)
-                    {
-                        gameboard.viableNumbers[i, j, k] = false;
-                    }
-                    gameboard.sudokuBoard[i, j] = 0;
-                }
-            }
+            
 
             var image = ImageRetrieval();
             image = cropImage(image);
@@ -51,7 +40,7 @@ namespace SudokuSolver
                                 singleImage[x, y] = blockImages[i, j, x, y];
                             }
                         }
-                        gameboard.sudokuBoard[i, j] = OCRClass.convertImage(singleImage);
+                        this.gameboard.sudokuBoard[i,j] = OCRClass.convertImage(singleImage);
                     }
                 }
             }

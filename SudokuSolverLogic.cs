@@ -35,6 +35,8 @@ namespace SudokuSolver
 
                     }
                 }
+                if (unsolvable)
+                    Console.WriteLine("Ah shit");
             }
         }
 

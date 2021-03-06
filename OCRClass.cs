@@ -7,18 +7,41 @@ namespace SudokuSolver
     {
         public static int convertImage(bool[,] image)
         {
+            //upperLeft, lowerRight
             Point[] edges = findEdges(image);
+
+            if (edges[0].X == -1 || edges[0].Y == -1 || edges[1].X == -1 || edges[1].Y == -1)
+                return 0;
 
             //Left, Right, Top, Bottom
             double[] percentSides = getSidePercentages(image, edges);
 
             //Left, top
             double[] skewedness = getSkewedness(image, edges);
-            
 
+            //List of if statements distinguishing which number each of them are
             
-
-            return 0;
+            if (percentSides[1] > 0.8)
+                return 1;
+            else if (percentSides[3] > 0.8)
+                return 2;
+            else if (percentSides[2] > 0.7)
+            {
+                if (percentSides[3] > 0.4)
+                    return 5;
+                else
+                    return 7;
+            }
+            else if (percentSides[1] < 0.2)
+                return 4;
+            else if (skewedness[0] < 0.45)
+                return 3;
+            else if (percentSides[0] > 0.45)
+                return 6;
+            else if (skewedness[1] > 0.5)
+                return 8;
+            else
+                return 9;
         }
 
         public static Point[] findEdges(bool[,] image)
@@ -134,6 +157,30 @@ namespace SudokuSolver
             //double[3] = bottom
         {
             double[] output = new double[4];
+            int topNum = 0;
+            int botNum = 0;
+            int rightNum = 0;
+            int leftNum = 0;
+            int lengthX = edges[1].X - edges[0].X;
+            int lengthY = edges[1].Y - edges[0].Y;
+
+            for(int x = 0; x < lengthX; x++)
+            {
+                topNum += image[edges[0].X + x, edges[0].Y + 1] ? 1 : 0;
+                botNum += image[edges[0].X + x, edges[1].Y - 1] ? 1 : 0;
+            }
+
+            for (int y = 0; y < lengthY; y++)
+            {
+                leftNum += image[edges[0].X + 1, edges[0].Y + y] ? 1 : 0;
+                rightNum += image[edges[1].X - 1, edges[0].Y + y] ? 1 : 0;
+            }
+
+            output[0] = Convert.ToDouble(leftNum) / lengthY;
+            output[1] = Convert.ToDouble(rightNum) / lengthY;
+            output[2] = Convert.ToDouble(topNum) / lengthX;
+            output[3] = Convert.ToDouble(botNum) / lengthX;
+
             return output;
         }
 
