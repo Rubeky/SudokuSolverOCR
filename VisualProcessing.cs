@@ -30,28 +30,28 @@ namespace SudokuSolver
             }
 
             var image = ImageRetrieval();
-            this.image = cropImage(image);
+            image = cropImage(image);
 
             //Checking that image is actually correct size
             if(image.GetLength(0) > 100 && image.GetLength(1) > 100)
             {
                 var blockImages = imageSplit(image, gameboard);
 
-                bool[,] singleImage = new bool[blockImages.GetLength(3), blockImages.GetLength(4)];
+                bool[,] singleImage = new bool[blockImages.GetLength(2), blockImages.GetLength(3)];
 
                 //Goes through block of images and gets all "images" turned into the corresponding number value
                 for (int i = 0; i < 9; i++)
                 {
                     for (int j = 0; j < 9; j++)
                     {
-                        for (int x = 0; x < blockImages.GetLength(3); x++)
+                        for (int x = 0; x < blockImages.GetLength(2); x++)
                         {
-                            for (int y = 0; y < blockImages.GetLength(4); y++)
+                            for (int y = 0; y < blockImages.GetLength(3); y++)
                             {
                                 singleImage[x, y] = blockImages[i, j, x, y];
                             }
                         }
-                        gameboard.sudokuBoard[i, j] = imageToNumbers(singleImage);
+                        gameboard.sudokuBoard[i, j] = OCRClass.convertImage(singleImage);
                     }
                 }
             }
@@ -163,8 +163,6 @@ namespace SudokuSolver
             int boxSizeX = image.GetLength(0) / 9;
             int boxSizeY = image.GetLength(1) / 9;
 
-            int numBlack = 0;
-
             bool[,,,] output = new bool[9, 9, boxSizeX - 10, boxSizeY - 10];
 
             //Goes through the boxes in vertical lines, starting at top left
@@ -179,25 +177,13 @@ namespace SudokuSolver
                             if (image[x + boxSizeX * i + 5, y + boxSizeY * j + 5] != white)
                             {
                                 output[i, j, x, y] = true;
-                                numBlack++;
-                            }
-                            else
-                            {
-                                output[i, j, x, y] = false;
                             }
                         }
                     }
-                    Console.WriteLine("Number of black pixels for square " + i.ToString() + " " + j.ToString() + " = " + numBlack.ToString());
-                    numBlack = 0;
                 }
             }
 
             return output;
-        }
-
-        private int imageToNumbers(bool[,] images)
-        {
-            return -1;
         }
 
         public sudokuVars getArray()
