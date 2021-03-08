@@ -12,9 +12,6 @@ namespace SudokuSolver
         {
             this.gameboard = gameboard;
 
-
-            
-
             var image = ImageRetrieval();
             image = cropImage(image);
 
@@ -98,6 +95,9 @@ namespace SudokuSolver
                         {
                             topLeft.X = i;
                             topLeft.Y = j;
+                            gameboard.sudokuFirstBoxLocation[0] = i;
+                            gameboard.sudokuFirstBoxLocation[1] = j;
+
                             topLeftFound = true;
                         }
                     }

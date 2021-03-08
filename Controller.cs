@@ -5,7 +5,6 @@ struct sudokuVars
     public int[,] sudokuBoard;
     public bool[,,] viableNumbers;
     public int[] sudokuFirstBoxLocation;
-
     public void setup()
     {
         sudokuBoard = new int[9,9];
@@ -49,12 +48,15 @@ namespace SudokuSolver
             var solver = new SudokuSolverLogic(gameboard);
             solver.solve();
 
+            new WriterToScreen(gameboard);
+
             print(gameboard);
+            
 
             if (solver.isComplete())
             {
-                // Not complete, needs to interact with mouse and keyboard
-                //new WriterToScreen(gameBoard);
+                // Not complete, needs to interact with keyboard
+                
             }
         }
 
