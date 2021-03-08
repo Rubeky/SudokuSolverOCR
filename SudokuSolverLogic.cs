@@ -38,9 +38,20 @@ namespace SudokuSolver
             }
         }
 
-        public bool isComplete()
+        public bool isComplete(sudokuVars gameboard)
         {
-            return false;
+            for(int i = 0; i < 9; i++)
+            {
+                for(int j = 0; j < 9; j++)
+                {
+                    if(gameboard.sudokuBoard[i, j] == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

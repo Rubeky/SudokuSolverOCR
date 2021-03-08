@@ -25,18 +25,32 @@ namespace SudokuSolver
                 {
                     //Filling value then going to next box
                     fillValue(keyboard, gameboard.sudokuBoard[j, i]);
+<<<<<<< HEAD
+                    Thread.Sleep(1);
+                    keyboard.Send(Keyboard.ScanCodeShort.RIGHT);
+                    Thread.Sleep(1);
+=======
                     Thread.Sleep(10);
                     keyboard.Send(Keyboard.ScanCodeShort.RIGHT);
                     Thread.Sleep(10);
+>>>>>>> 35ed00698d08a2c50ae070f7e66ac1aac9756278
                 }
 
                 //Setting to next row
                 keyboard.Send(Keyboard.ScanCodeShort.DOWN);
+<<<<<<< HEAD
+                Thread.Sleep(1);
+                for (int j = 0; j < 9; j++)
+                {
+                    keyboard.Send(Keyboard.ScanCodeShort.LEFT);
+                    Thread.Sleep(1);
+=======
                 Thread.Sleep(10);
                 for (int j = 0; j < 9; j++)
                 {
                     keyboard.Send(Keyboard.ScanCodeShort.LEFT);
                     Thread.Sleep(10);
+>>>>>>> 35ed00698d08a2c50ae070f7e66ac1aac9756278
                 }
             }
 

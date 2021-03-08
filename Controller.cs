@@ -48,6 +48,14 @@ namespace SudokuSolver
             var solver = new SudokuSolverLogic(gameboard);
             solver.solve();
 
+<<<<<<< HEAD
+            //print(gameboard);
+            
+            if (solver.isComplete(gameboard))
+            {
+                // Not complete, needs to interact with keyboard
+                new WriterToScreen(gameboard);
+=======
             new WriterToScreen(gameboard);
 
             print(gameboard);
@@ -57,6 +65,7 @@ namespace SudokuSolver
             {
                 // Not complete, needs to interact with keyboard
                 
+>>>>>>> 35ed00698d08a2c50ae070f7e66ac1aac9756278
             }
         }
 
